@@ -3,8 +3,6 @@ import Message from '../Message/Message'
 
 import './App.css';
 
-/* родительский компонент */
-
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -23,7 +21,7 @@ class App extends Component {
 			<div>
 				<Message onUpdateText={this.onUpdateText} />
 				<div className='text'>
-					<p>getting data</p>
+					<p>data retrieval</p>
 					<h2 >{text}</h2>
 				</div>
 			</div>
