@@ -1,0 +1,24 @@
+.message {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 200px;
+	border: 1px solid rgb(219, 217, 217);
+	margin: 50px 200px 10px;
+	border-radius: 8px;
+}
+
+.message-input {
+	font-size: 20px;
+	background-color: rgb(230, 233, 236);
+	color: rgb(5, 28, 48);
+	padding: 0 10px;
+	border: none;
+	height: 40px;
+}
+
+.h4 {
+	font-size: 36px;
+	color: rgb(5, 28, 48);
+}
