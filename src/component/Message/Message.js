@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import './Message.css'
 
-/* дочерний компонент */
-
 export default class Message extends Component {
 	onUpdateText = (event) => {
 		const text = event.target.value;
