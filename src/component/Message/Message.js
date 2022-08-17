@@ -1,22 +1,23 @@
-import React, { Component } from 'react'
+import React from 'react'
+
 import './Message.css'
+function Message(props) {
+	const data = props.onUpdateData;
 
-export default class Message extends Component {
-	onUpdateText = (event) => {
-		const text = event.target.value;
-		this.props.onUpdateText(text)
+	let res;
+	if (data) {
+		res = data.map(item => <li key={item.id}>автор сообщения: {item.author} <br /> текст сообщения: {item.text}</li>)
+	} else {
+		res = 'массив объектов - сообщений пуст'
 	}
 
-	render() {
-		return (
-			<div className='message'>
-				<h4 className='h4'>Input</h4>
-				<input type="text"
-					className="message-input"
-					placeholder="Введите текст"
-					onChange={this.onUpdateText} />
-			</div>
-		)
-	}
+	return (
+		<div className='message'>
+			<ul>
+				{res}
+			</ul>
+		</div>
+	)
 }
 
+export default Message;

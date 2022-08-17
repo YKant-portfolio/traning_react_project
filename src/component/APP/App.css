@@ -1,21 +1,22 @@
-.text {
+.content {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
 	background-color: rgb(219, 217, 217);
-	margin: 0 200px;
+	margin: 100px 150px;
 	border-radius: 8px;
+	padding-top: 20px
 }
 
-p {
-	font-size: 36px;
-	color: rgb(5, 28, 48);
-}
-
-h2 {
-	background: rgb(255, 255, 255);
-	padding: 10px;
-	border-radius: 8px;
-	color: rgb(5, 28, 48);
+button {
+	margin-top: 10px;
+	height: 25px;
+	min-width: 75px;
+	border-radius: 5px;
+	border: none;
+	font-size: 16px;
 	font-weight: 100;
+	cursor: pointer;
+	background: rgba(124, 124, 124, 0.863);
+	color: aliceblue;
 }
