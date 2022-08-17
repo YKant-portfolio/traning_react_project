@@ -1,0 +1,20 @@
+.form-wrap {
+	width: 100%;
+}
+
+form {
+	display: flex;
+	justify-content: space-around;
+	margin-bottom: 20px;
+}
+
+h3 {
+	text-align: center;
+}
+
+input {
+	border: none;
+	border-radius: 5px;
+	padding: 0 10px;
+	font-size: 16px;
+}
