@@ -2,13 +2,23 @@ import { useState, useEffect } from 'react';
 import Message from '../Message/Message';
 import Form from '../Form/Form';
 import Spinner from '../Spiner/Spiner';
-import './App.css';
+import Theme from '../Theme/Theme';
+
+
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Alert from '@mui/material/Alert';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
 
 function App() {
 	const [value, setValue] = useState('');
 	const [robot, setRobot] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [msg, setMsg] = useState(false);
+	const [theme, setTheme] = useState(false);
 
 	let getData = [
 		{ id: 1, author: 'Alexandro Kazulin', text: 'HI Im Kazulin' },
@@ -32,6 +42,9 @@ function App() {
 		setRobot([0])
 	}
 
+	const changeTheme = (change) => {
+		setTheme(change)
+	}
 
 	useEffect(() => {
 		setValue([...getData]);
@@ -53,18 +66,75 @@ function App() {
 		}, 3000)
 	}, [msg])
 
+	const darkTheme = createTheme({
+		palette: {
+			mode: 'dark',
+			primary: {
+				main: "#616161",
+				light: "#757575"
+			},
+			secondary: {
+				main: '#212121'
+			},
+			text: {
+				primary: '#fff',
+				icon: '#000',
+			},
+			background: {
+				paper: "#000",
+				default: '#000'
+			},
+		},
+	});
+	const lightTheme = createTheme({
+		palette: {
+			mode: 'light',
+			primary: {
+				main: "#bdbdbd",
+				light: "#eeeeee"
+			},
+			secondary: {
+				main: '#eeeeee'
+			},
+			text: {
+				primary: '#212121',
+				icon: '#263238',
+			},
+		},
+	});
+
 	const spinner = loading ? <Spinner /> : null;
-	const message = msg ? <h3>Ваше сообщение принято</h3> : null;
+	const message = msg ? <Alert borderradius={8} >Ваше сообщение принято</Alert> : null;
+	const themeColor = theme ? darkTheme : lightTheme;
 
 	return (
-		<div className='content'>
-			{/* <button onClick={updateData}>upload</button> */}
-			<button onClick={clearData}>clear</button>
-			<Message onUpdateData={value} />
-			<Form onAdd={addItem} />
-			{spinner}
-			{message}
-		</div>
+		<ThemeProvider theme={themeColor}>
+			<CssBaseline />
+			<Container maxWidth="sm">
+				<Box sx={{ bgcolor: 'primary.main', minHeight: '50vh', }}
+					display="flex"
+					flexDirection={'column'}
+					justifyContent="center"
+					alignItems="center"
+					marginTop={20}
+					borderRadius={8}
+					paddingTop={5}>
+					<Box sx={{ bgcolor: 'secondary.main', height: '45px', width: '200px' }}
+						display="flex"
+						justifyContent='space-around'
+						alignItems="center"
+						borderRadius={4}
+					>
+						<DeleteForeverIcon fontSize='large' cursor='pointer' onClick={clearData} />
+						<Theme toggleTheme={changeTheme} status={theme} />
+					</Box>
+					<Message onUpdateData={value} />
+					<Form onAdd={addItem} />
+					{spinner}
+					{message}
+				</Box>
+			</Container>
+		</ThemeProvider>
 	)
 }
 

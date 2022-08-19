@@ -1,11 +1,20 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import SendIcon from '@mui/icons-material/Send';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+// import './Form.css'
 
-import './Form.css'
 
 const Form = (props) => {
-
 	const [newAuthor, setAuthor] = useState('')
 	const [newText, setText] = useState('')
+
+	const inputRef = useRef();
+
+	const handleClick = () => {
+		inputRef.current.focus();
+	}
 
 	const onValueChangeAuthor = (e) => {
 		setAuthor(e.target.value);
@@ -20,31 +29,55 @@ const Form = (props) => {
 		props.onAdd(newAuthor, newText);
 		setAuthor('');
 		setText('');
+		handleClick();
 	}
 
+	const formStyle = {
+		width: '500px',
+		display: 'flex',
+		justifyContent: 'space-between',
+		marginBottom: "20px"
+	}
+
+	useEffect(() => {
+		handleClick();
+	}, [])
 
 	return (
-		<div className='form-wrap'>
-			<h3>Ваше сообщение</h3>
-			<form
-				className="form"
-				onSubmit={onSubmitItem}>
-				<input type="text"
+		<>
+			<Typography variant='h6'
+				component='span'>
+				Ваше сообщение
+			</Typography>
+			<form style={formStyle}
+				onSubmit={onSubmitItem}
+
+			>
+				<TextField id="standard-basic"
+					label="author"
+					variant="standard"
+					type="text"
+					color='secondary'
 					placeholder="Автор"
 					name='author'
 					value={newAuthor}
 					onChange={onValueChangeAuthor}
+					inputRef={inputRef}
 				/>
-				<input type="text"
+				<TextField id="standard-basic"
+					label="message"
+					variant="standard"
+					type="text"
+					color='success'
 					placeholder="сообщение"
 					name='message'
 					value={newText}
 					onChange={onValueChangeText}
+
 				/>
-				<button type="submit"
-					className="btn">отправить</button>
+				<IconButton color='inherit' type="submit"><SendIcon fontSize='large' /></IconButton>
 			</form>
-		</div>
+		</>
 	)
 }
 
