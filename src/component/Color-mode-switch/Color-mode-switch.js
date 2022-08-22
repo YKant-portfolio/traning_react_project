@@ -3,7 +3,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { IconButton, useTheme } from '@mui/material';
 
-function Theme(props) {
+function ColorModeSwitch(props) {
 	const theme = useTheme();
 
 	const toogleUpdate = () => {
@@ -18,4 +18,4 @@ function Theme(props) {
 	)
 }
 
-export default Theme;
+export default ColorModeSwitch;

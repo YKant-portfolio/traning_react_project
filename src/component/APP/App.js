@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import Message from '../Message/Message';
 import Form from '../Form/Form';
 import Spinner from '../Spiner/Spiner';
-import Theme from '../Theme/Theme';
+import ColorModeSwitch from '../Color-mode-switch/Color-mode-switch';
+import Service from '../../services/services';
 
 
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,23 +14,58 @@ import Alert from '@mui/material/Alert';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 
+const darkTheme = createTheme({
+	palette: {
+		mode: 'dark',
+		primary: {
+			main: "#616161",
+			light: "#757575"
+		},
+		secondary: {
+			main: '#212121'
+		},
+		text: {
+			primary: '#fff',
+			icon: '#000',
+		},
+		background: {
+			paper: "#000",
+			default: '#000'
+		},
+	},
+});
+const lightTheme = createTheme({
+	palette: {
+		mode: 'light',
+		primary: {
+			main: "#bdbdbd",
+			light: "#eeeeee"
+		},
+		secondary: {
+			main: '#eeeeee'
+		},
+		text: {
+			primary: '#212121',
+			icon: '#263238',
+		},
+	},
+});
+
 function App() {
-	const [value, setValue] = useState('');
+	const [value, setValue] = useState([]);
 	const [robot, setRobot] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [msg, setMsg] = useState(false);
 	const [theme, setTheme] = useState(false);
 
-	let getData = [
-		{ id: 1, author: 'Alexandro Kazulin', text: 'HI Im Kazulin' },
-		{ id: 2, author: 'Dio Denisovich', text: 'HI Im Dio' },
-		{ id: 3, author: 'Marsel Kyasar', text: 'HI Im Marsel' },
-	]
+	const service = new Service();
+	let getData = service.getAllUsers()
+
 
 	let maxId = value.length + 1;
 
 	const clearData = () => {
-		setValue('');
+		setValue([]);
 	}
 
 	const addItem = (author, text) => {
@@ -53,55 +89,20 @@ function App() {
 	useEffect(() => {
 		if (robot.length > 0) {
 			setLoading(true);
-			setTimeout(() => {
+			const timeout = setTimeout(() => {
 				setLoading(false);
 				setMsg(true);
-			}, 5000)
+			}, 5000);
+			return () => { clearTimeout(timeout) };
 		}
-	}, [robot])
+	}, [robot]);
 
 	useEffect(() => {
-		setTimeout(() => {
+		const timeout = setTimeout(() => {
 			setMsg(false);
-		}, 3000)
-	}, [msg])
-
-	const darkTheme = createTheme({
-		palette: {
-			mode: 'dark',
-			primary: {
-				main: "#616161",
-				light: "#757575"
-			},
-			secondary: {
-				main: '#212121'
-			},
-			text: {
-				primary: '#fff',
-				icon: '#000',
-			},
-			background: {
-				paper: "#000",
-				default: '#000'
-			},
-		},
-	});
-	const lightTheme = createTheme({
-		palette: {
-			mode: 'light',
-			primary: {
-				main: "#bdbdbd",
-				light: "#eeeeee"
-			},
-			secondary: {
-				main: '#eeeeee'
-			},
-			text: {
-				primary: '#212121',
-				icon: '#263238',
-			},
-		},
-	});
+		}, 3000);
+		return () => { clearTimeout(timeout) };
+	}, [msg]);
 
 	const spinner = loading ? <Spinner /> : null;
 	const message = msg ? <Alert borderradius={8} >Ваше сообщение принято</Alert> : null;
@@ -126,9 +127,9 @@ function App() {
 						borderRadius={4}
 					>
 						<DeleteForeverIcon fontSize='large' cursor='pointer' onClick={clearData} />
-						<Theme toggleTheme={changeTheme} status={theme} />
+						<ColorModeSwitch toggleTheme={changeTheme} status={theme} />
 					</Box>
-					<Message onUpdateData={value} />
+					<Message onAcceptData={value} />
 					<Form onAdd={addItem} />
 					{spinner}
 					{message}

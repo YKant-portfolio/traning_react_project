@@ -5,8 +5,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import Box from '@mui/material/Box';
+
 function Message(props) {
-	const data = props.onUpdateData;
+	const data = props.onAcceptData;
 	let res;
 	if (data) {
 		res = data.map(item => (
