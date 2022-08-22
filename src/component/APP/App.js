@@ -51,17 +51,22 @@ const lightTheme = createTheme({
 	},
 });
 
+let newItem;
+
+const boxStyle = {
+	display: "flex",
+	alignItems: "center",
+}
+
 function App() {
 	const [value, setValue] = useState([]);
-	const [robot, setRobot] = useState([]);
+	const [robot, setRobot] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [msg, setMsg] = useState(false);
 	const [theme, setTheme] = useState(false);
 
 	const service = new Service();
-	let getData = service.getAllUsers()
-
-
+	let getData = service.getAuthorText()
 	let maxId = value.length + 1;
 
 	const clearData = () => {
@@ -69,13 +74,12 @@ function App() {
 	}
 
 	const addItem = (author, text) => {
-		const newItem = {
+		newItem = {
 			author,
 			text,
 			id: maxId++,
 		}
-		setValue([...value, newItem]);
-		setRobot([0])
+		setRobot(true);
 	}
 
 	const changeTheme = (change) => {
@@ -84,23 +88,25 @@ function App() {
 
 	useEffect(() => {
 		setValue([...getData]);
-	}, [])
+	}, []);
 
 	useEffect(() => {
-		if (robot.length > 0) {
+		if (robot) {
 			setLoading(true);
 			const timeout = setTimeout(() => {
+				setRobot(false);
 				setLoading(false);
 				setMsg(true);
-			}, 5000);
+				setValue([...value, newItem]);
+			}, 3000);
 			return () => { clearTimeout(timeout) };
 		}
-	}, [robot]);
+	}, [robot, value]);
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setMsg(false);
-		}, 3000);
+		}, 1500);
 		return () => { clearTimeout(timeout) };
 	}, [msg]);
 
@@ -113,19 +119,16 @@ function App() {
 			<CssBaseline />
 			<Container maxWidth="sm">
 				<Box sx={{ bgcolor: 'primary.main', minHeight: '50vh', }}
-					display="flex"
+					{...boxStyle}
 					flexDirection={'column'}
 					justifyContent="center"
-					alignItems="center"
 					marginTop={20}
 					borderRadius={8}
 					paddingTop={5}>
 					<Box sx={{ bgcolor: 'secondary.main', height: '45px', width: '200px' }}
-						display="flex"
+						{...boxStyle}
 						justifyContent='space-around'
-						alignItems="center"
-						borderRadius={4}
-					>
+						borderRadius={4}>
 						<DeleteForeverIcon fontSize='large' cursor='pointer' onClick={clearData} />
 						<ColorModeSwitch toggleTheme={changeTheme} status={theme} />
 					</Box>
@@ -135,7 +138,7 @@ function App() {
 					{message}
 				</Box>
 			</Container>
-		</ThemeProvider>
+		</ThemeProvider >
 	)
 }
 

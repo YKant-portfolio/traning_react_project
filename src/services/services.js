@@ -6,7 +6,7 @@ class Service {
 		{ id: "3", author: "Marsel Kyasar", text: "HI Im Marsel", date: "15.01.2020", raiting: "5", blocked: "false" },
 	]
 
-	getAllUsers = (() => {
+	getAuthorText = (() => {
 		const users = this.getUsers;
 		return users.map(this._transformData);
 	})

@@ -6,6 +6,18 @@ import IconButton from '@mui/material/IconButton';
 // import './Form.css'
 
 
+const formStyle = {
+	width: '500px',
+	display: 'flex',
+	justifyContent: 'space-between',
+	marginBottom: "20px"
+}
+const inputStyle = {
+	variant: "standard",
+	type: "text",
+	color: 'secondary',
+}
+
 const Form = (props) => {
 	const [newAuthor, setAuthor] = useState('')
 	const [newText, setText] = useState('')
@@ -32,13 +44,6 @@ const Form = (props) => {
 		handleClick();
 	}
 
-	const formStyle = {
-		width: '500px',
-		display: 'flex',
-		justifyContent: 'space-between',
-		marginBottom: "20px"
-	}
-
 	useEffect(() => {
 		handleClick();
 	}, [])
@@ -50,31 +55,22 @@ const Form = (props) => {
 				Ваше сообщение
 			</Typography>
 			<form style={formStyle}
-				onSubmit={onSubmitItem}
-
-			>
+				onSubmit={onSubmitItem}	>
 				<TextField id="standard-basic"
 					label="author"
-					variant="standard"
-					type="text"
-					color='secondary'
+					{...inputStyle}
 					placeholder="Автор"
 					name='author'
 					value={newAuthor}
 					onChange={onValueChangeAuthor}
-					inputRef={inputRef}
-				/>
+					inputRef={inputRef} />
 				<TextField id="standard-basic"
 					label="message"
-					variant="standard"
-					type="text"
-					color='success'
+					{...inputStyle}
 					placeholder="сообщение"
 					name='message'
 					value={newText}
-					onChange={onValueChangeText}
-
-				/>
+					onChange={onValueChangeText} />
 				<IconButton color='inherit' type="submit"><SendIcon fontSize='large' /></IconButton>
 			</form>
 		</>
