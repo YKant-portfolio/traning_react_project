@@ -128,7 +128,7 @@ function App() {
 					<Box sx={{ bgcolor: 'secondary.main', height: '45px', width: '200px' }}
 						{...boxStyle}
 						justifyContent='space-around'
-						borderRadius={4}>
+						borderRadius={4} >
 						<DeleteForeverIcon fontSize='large' cursor='pointer' onClick={clearData} />
 						<ColorModeSwitch toggleTheme={changeTheme} status={theme} />
 					</Box>

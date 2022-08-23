@@ -19,8 +19,9 @@ const inputStyle = {
 }
 
 const Form = (props) => {
-	const [newAuthor, setAuthor] = useState('')
-	const [newText, setText] = useState('')
+	const [state, setState] = useState({ author: '', message: '' });
+
+	const { author, message } = state;
 
 	const inputRef = useRef();
 
@@ -28,19 +29,16 @@ const Form = (props) => {
 		inputRef.current.focus();
 	}
 
-	const onValueChangeAuthor = (e) => {
-		setAuthor(e.target.value);
-	}
-
-	const onValueChangeText = (e) => {
-		setText(e.target.value);
+	const onValueChange = (e) => {
+		const { name, value } = e.target;
+		setState(prevState => ({ ...prevState, [name]: value }));
 	}
 
 	const onSubmitItem = (e) => {
 		e.preventDefault();
-		props.onAdd(newAuthor, newText);
-		setAuthor('');
-		setText('');
+		props.onAdd(author, message);
+
+		setState({ author: '', message: '' });
 		handleClick();
 	}
 
@@ -61,16 +59,16 @@ const Form = (props) => {
 					{...inputStyle}
 					placeholder="Автор"
 					name='author'
-					value={newAuthor}
-					onChange={onValueChangeAuthor}
+					value={author}
+					onChange={onValueChange}
 					inputRef={inputRef} />
 				<TextField id="standard-basic"
 					label="message"
 					{...inputStyle}
 					placeholder="сообщение"
 					name='message'
-					value={newText}
-					onChange={onValueChangeText} />
+					value={message}
+					onChange={onValueChange} />
 				<IconButton color='inherit' type="submit"><SendIcon fontSize='large' /></IconButton>
 			</form>
 		</>
