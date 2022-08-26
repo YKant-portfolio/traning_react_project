@@ -1,55 +1,17 @@
 import { useState, useEffect } from 'react';
 import Message from '../Message/Message';
 import Form from '../Form/Form';
-import Spinner from '../Spiner/Spiner';
-import ColorModeSwitch from '../Color-mode-switch/Color-mode-switch';
+import { Spinner } from '../Spiner/Spiner';
+import { ColorModeSwitch } from '../Color-mode-switch/Color-mode-switch';
 import Service from '../../services/services';
 
+import { ThemeProvider } from '../../context';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Alert from '@mui/material/Alert';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-
-const darkTheme = createTheme({
-	palette: {
-		mode: 'dark',
-		primary: {
-			main: "#616161",
-			light: "#757575"
-		},
-		secondary: {
-			main: '#212121'
-		},
-		text: {
-			primary: '#fff',
-			icon: '#000',
-		},
-		background: {
-			paper: "#000",
-			default: '#000'
-		},
-	},
-});
-const lightTheme = createTheme({
-	palette: {
-		mode: 'light',
-		primary: {
-			main: "#bdbdbd",
-			light: "#eeeeee"
-		},
-		secondary: {
-			main: '#eeeeee'
-		},
-		text: {
-			primary: '#212121',
-			icon: '#263238',
-		},
-	},
-});
 
 let newItem;
 
@@ -63,7 +25,6 @@ function App() {
 	const [robot, setRobot] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [msg, setMsg] = useState(false);
-	const [theme, setTheme] = useState(false);
 
 	const service = new Service();
 	let getData = service.getAuthorText()
@@ -80,10 +41,6 @@ function App() {
 			id: maxId++,
 		}
 		setRobot(true);
-	}
-
-	const changeTheme = (change) => {
-		setTheme(change)
 	}
 
 	useEffect(() => {
@@ -112,10 +69,9 @@ function App() {
 
 	const spinner = loading ? <Spinner /> : null;
 	const message = msg ? <Alert borderradius={8} >Ваше сообщение принято</Alert> : null;
-	const themeColor = theme ? darkTheme : lightTheme;
 
 	return (
-		<ThemeProvider theme={themeColor}>
+		<ThemeProvider>
 			<CssBaseline />
 			<Container maxWidth="sm">
 				<Box sx={{ bgcolor: 'primary.main', minHeight: '50vh', }}
@@ -130,7 +86,7 @@ function App() {
 						justifyContent='space-around'
 						borderRadius={4} >
 						<DeleteForeverIcon fontSize='large' cursor='pointer' onClick={clearData} />
-						<ColorModeSwitch toggleTheme={changeTheme} status={theme} />
+						<ColorModeSwitch />
 					</Box>
 					<Message onAcceptData={value} />
 					<Form onAdd={addItem} />
