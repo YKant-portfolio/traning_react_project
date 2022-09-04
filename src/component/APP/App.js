@@ -7,7 +7,7 @@ import { Spinner } from '../Spiner/Spiner';
 import { ColorModeSwitch } from '../Color-mode-switch/Color-mode-switch';
 import Service from '../../services/services';
 
-import { ThemeProvider } from '../../context';
+import { ThemeProvider } from '../../context/contextTheme';
 
 import { Home } from '../../pages/Home';
 import { Profile } from '../../pages/Profile';
@@ -18,6 +18,9 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Alert from '@mui/material/Alert';
+import HomeIcon from '@mui/icons-material/Home';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ChatIcon from '@mui/icons-material/Chat';
 
 // переменная для создания строчки в чате
 let newItem;
@@ -26,6 +29,11 @@ const boxStyle = {
 	display: "flex",
 	alignItems: "center",
 }
+const linkStyle = {
+	textDecoration: "none",
+	color: 'inherit'
+};
+
 
 function App() {
 	const [value, setValue] = useState([]);
@@ -82,7 +90,7 @@ function App() {
 			<ThemeProvider>
 				<CssBaseline />
 				<Container maxWidth="sm">
-					<Box sx={{ bgcolor: 'primary.main', minHeight: '50vh', }}
+					<Box sx={{ bgcolor: 'primary.main', minHeight: '50vh', minWidth: '300px' }}
 						{...boxStyle}
 						flexDirection={'column'}
 						justifyContent="center"
@@ -96,9 +104,15 @@ function App() {
 							<DeleteForeverIcon fontSize='large' cursor='pointer' onClick={clearData} />
 							<ColorModeSwitch />
 						</Box>
-						<Link to="/">Home</Link>
-						<Link to="/profile/">Profile</Link>
-						<Link to="/chats/">Chats</Link>
+						<Box sx={{ bgcolor: 'secondary.main', height: '30px', minWidth: '200px', marginTop: "20px", paddingTop: '5px' }}
+							{...boxStyle}
+							justifyContent='space-around'
+							borderRadius={4} >
+							<Link to="/" style={linkStyle}><HomeIcon /></Link>
+							<Link to="/chats/" style={linkStyle}><ChatIcon /></Link>
+							<Link to="/profile/" style={linkStyle}><AccountCircleIcon /></Link>
+						</Box>
+
 						<Switch>
 							<Route path="/chats">
 								<Chats />

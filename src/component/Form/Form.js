@@ -7,15 +7,16 @@ import IconButton from '@mui/material/IconButton';
 
 
 const formStyle = {
-	width: '500px',
+	width: '100%',
 	display: 'flex',
-	justifyContent: 'space-between',
+	justifyContent: 'space-around',
 	marginBottom: "20px"
 }
 const inputStyle = {
 	variant: "standard",
 	type: "text",
 	color: 'secondary',
+
 }
 
 const Form = (props) => {
@@ -65,7 +66,7 @@ const Form = (props) => {
 				<TextField id="standard-basic"
 					label="message"
 					{...inputStyle}
-					placeholder="сообщение"
+					placeholder="Cообщение"
 					name='message'
 					value={message}
 					onChange={onValueChange} />

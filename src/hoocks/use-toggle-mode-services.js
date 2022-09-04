@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ThemeColorContext } from '../context';
+import { ThemeColorContext } from '../context/contextTheme';
 
 export const useToggleModeServices = () => {
 	const toggleMode = useContext(ThemeColorContext);
