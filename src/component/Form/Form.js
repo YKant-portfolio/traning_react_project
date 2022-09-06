@@ -1,42 +1,44 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-// import './Form.css'
+import { Context } from '../../context/context';
 
 
-const Form = (props) => {
-	const [newAuthor, setAuthor] = useState('')
-	const [newText, setText] = useState('')
+const formStyle = {
+	width: '100%',
+	display: 'flex',
+	justifyContent: 'space-around',
+	marginBottom: "20px"
+}
+const inputStyle = {
+	variant: "standard",
+	type: "text",
+	color: 'secondary',
+}
 
+const Form = () => {
+	const { addItem } = useContext(Context);
+
+	const [state, setState] = useState({ author: '', message: '' });
+
+	const { author, message } = state;
 	const inputRef = useRef();
-
 	const handleClick = () => {
 		inputRef.current.focus();
 	}
 
-	const onValueChangeAuthor = (e) => {
-		setAuthor(e.target.value);
-	}
-
-	const onValueChangeText = (e) => {
-		setText(e.target.value);
+	const onValueChange = (e) => {
+		const { name, value } = e.target;
+		setState(prevState => ({ ...prevState, [name]: value }));
 	}
 
 	const onSubmitItem = (e) => {
 		e.preventDefault();
-		props.onAdd(newAuthor, newText);
-		setAuthor('');
-		setText('');
+		addItem(author, message);
+		setState({ author: '', message: '' });
 		handleClick();
-	}
-
-	const formStyle = {
-		width: '500px',
-		display: 'flex',
-		justifyContent: 'space-between',
-		marginBottom: "20px"
 	}
 
 	useEffect(() => {
@@ -46,35 +48,27 @@ const Form = (props) => {
 	return (
 		<>
 			<Typography variant='h6'
-				component='span'>
+				component='span'
+				marginTop="40px">
 				Ваше сообщение
 			</Typography>
 			<form style={formStyle}
-				onSubmit={onSubmitItem}
-
-			>
+				onSubmit={onSubmitItem}	>
 				<TextField id="standard-basic"
 					label="author"
-					variant="standard"
-					type="text"
-					color='secondary'
+					{...inputStyle}
 					placeholder="Автор"
 					name='author'
-					value={newAuthor}
-					onChange={onValueChangeAuthor}
-					inputRef={inputRef}
-				/>
+					value={author}
+					onChange={onValueChange}
+					inputRef={inputRef} />
 				<TextField id="standard-basic"
 					label="message"
-					variant="standard"
-					type="text"
-					color='success'
-					placeholder="сообщение"
+					{...inputStyle}
+					placeholder="Cообщение"
 					name='message'
-					value={newText}
-					onChange={onValueChangeText}
-
-				/>
+					value={message}
+					onChange={onValueChange} />
 				<IconButton color='inherit' type="submit"><SendIcon fontSize='large' /></IconButton>
 			</form>
 		</>

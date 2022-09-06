@@ -1,0 +1,15 @@
+.scrollbar-thumb {
+	background-color: #616161 !important;
+	width: 6px !important;
+	border-radius: 8px !important;
+	top: -1px !important;
+}
+
+.scrollbar-track-y {
+	margin-right: 5px !important;
+	top: 3% !important;
+	right: 0 !important;
+	width: 6px !important;
+	height: 94% !important;
+	border-radius: 8px !important;
+}

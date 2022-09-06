@@ -1,141 +1,138 @@
+import { BrowserRouter, Link, Redirect, Route, Switch } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Message from '../Message/Message';
-import Form from '../Form/Form';
-import Spinner from '../Spiner/Spiner';
-import ColorModeSwitch from '../Color-mode-switch/Color-mode-switch';
+import { ColorModeSwitch } from '../Color-mode-switch/Color-mode-switch';
 import Service from '../../services/services';
 
+import { ThemeProvider } from '../../context/contextTheme';
+import { Context } from '../../context/context';
+
+import { Home } from '../../pages/Home';
+import { Profiles } from '../../pages/Profiles';
+import { Chats } from '../../pages/Chats';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Alert from '@mui/material/Alert';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import HomeIcon from '@mui/icons-material/Home';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ChatIcon from '@mui/icons-material/Chat';
 
+// переменная для создания строчки в чате
+let newItem;
 
-const darkTheme = createTheme({
-	palette: {
-		mode: 'dark',
-		primary: {
-			main: "#616161",
-			light: "#757575"
-		},
-		secondary: {
-			main: '#212121'
-		},
-		text: {
-			primary: '#fff',
-			icon: '#000',
-		},
-		background: {
-			paper: "#000",
-			default: '#000'
-		},
-	},
-});
-const lightTheme = createTheme({
-	palette: {
-		mode: 'light',
-		primary: {
-			main: "#bdbdbd",
-			light: "#eeeeee"
-		},
-		secondary: {
-			main: '#eeeeee'
-		},
-		text: {
-			primary: '#212121',
-			icon: '#263238',
-		},
-	},
-});
+const boxStyle = {
+	display: "flex",
+	alignItems: "center",
+}
+const linkStyle = {
+	textDecoration: "none",
+	color: 'inherit'
+};
+
 
 function App() {
-	const [value, setValue] = useState([]);
-	const [robot, setRobot] = useState([]);
+	const [message, setMessage] = useState([]);
+	const [robot, setRobot] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [msg, setMsg] = useState(false);
-	const [theme, setTheme] = useState(false);
+	const [profile, setProfile] = useState([])
 
 	const service = new Service();
-	let getData = service.getAllUsers()
+	let getMessages = service.getAuthorText();
+	let getProfile = service.getProfile();
+	let maxId = message.length + 1;
 
-
-	let maxId = value.length + 1;
 
 	const clearData = () => {
-		setValue([]);
+		setMessage([]);
 	}
 
 	const addItem = (author, text) => {
-		const newItem = {
+		newItem = {
 			author,
 			text,
 			id: maxId++,
 		}
-		setValue([...value, newItem]);
-		setRobot([0])
-	}
-
-	const changeTheme = (change) => {
-		setTheme(change)
+		setRobot(true);
 	}
 
 	useEffect(() => {
-		setValue([...getData]);
-	}, [])
+		setMessage([...getMessages]);
+		setProfile([...getProfile])
+	}, []);
 
 	useEffect(() => {
-		if (robot.length > 0) {
+		if (robot) {
 			setLoading(true);
 			const timeout = setTimeout(() => {
+				setRobot(false);
 				setLoading(false);
 				setMsg(true);
-			}, 5000);
+				setMessage([...message, newItem]);
+			}, 3000);
 			return () => { clearTimeout(timeout) };
 		}
-	}, [robot]);
+	}, [robot, message]);
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setMsg(false);
-		}, 3000);
+		}, 1500);
 		return () => { clearTimeout(timeout) };
 	}, [msg]);
 
-	const spinner = loading ? <Spinner /> : null;
-	const message = msg ? <Alert borderradius={8} >Ваше сообщение принято</Alert> : null;
-	const themeColor = theme ? darkTheme : lightTheme;
+
+	const data = {
+		message,
+		robot,
+		loading,
+		msg,
+		addItem,
+		profile,
+	}
 
 	return (
-		<ThemeProvider theme={themeColor}>
-			<CssBaseline />
-			<Container maxWidth="sm">
-				<Box sx={{ bgcolor: 'primary.main', minHeight: '50vh', }}
-					display="flex"
-					flexDirection={'column'}
-					justifyContent="center"
-					alignItems="center"
-					marginTop={20}
-					borderRadius={8}
-					paddingTop={5}>
-					<Box sx={{ bgcolor: 'secondary.main', height: '45px', width: '200px' }}
-						display="flex"
-						justifyContent='space-around'
-						alignItems="center"
-						borderRadius={4}
-					>
-						<DeleteForeverIcon fontSize='large' cursor='pointer' onClick={clearData} />
-						<ColorModeSwitch toggleTheme={changeTheme} status={theme} />
-					</Box>
-					<Message onAcceptData={value} />
-					<Form onAdd={addItem} />
-					{spinner}
-					{message}
-				</Box>
-			</Container>
-		</ThemeProvider>
+		<BrowserRouter>
+			<ThemeProvider>
+				<Context.Provider value={data}>
+					<CssBaseline />
+					<Container maxWidth="sm">
+						<Box sx={{ bgcolor: 'primary.main', minHeight: '50vh', minWidth: '300px' }}
+							{...boxStyle}
+							flexDirection={'column'}
+							justifyContent="center"
+							marginTop={20}
+							borderRadius={8}
+							paddingTop={5}>
+							<Box sx={{ bgcolor: 'secondary.main', height: '45px', width: '200px' }}
+								{...boxStyle}
+								justifyContent='space-around'
+								borderRadius={4} >
+								<DeleteForeverIcon fontSize='large' cursor='pointer' onClick={clearData} />
+								<ColorModeSwitch />
+							</Box>
+							<Box sx={{ bgcolor: 'secondary.main', height: '30px', minWidth: '200px', marginTop: "20px", paddingTop: '5px' }}
+								{...boxStyle}
+								justifyContent='space-around'
+								borderRadius={4} >
+								<Link to="/" style={linkStyle}><HomeIcon /></Link>
+								<Link to="/chats/" style={linkStyle}><ChatIcon /></Link>
+								<Link to="/profile/" style={linkStyle}><AccountCircleIcon /></Link>
+							</Box>
+
+							<Switch>
+								<Route path="/chats" component={Chats} />
+								<Route path="/profile" render={() => {
+									return <Profiles />
+								}} />
+								<Route exact path="/" component={Home} />
+							</Switch>
+						</Box>
+					</Container>
+				</Context.Provider>
+			</ThemeProvider >
+		</BrowserRouter >
 	)
 }
 
