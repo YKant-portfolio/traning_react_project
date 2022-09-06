@@ -1,7 +1,8 @@
-import React from 'react'
-import MessageList from '../MessageList/Message-list';
+import React, { useContext } from 'react'
 
 import Scroll from '../SmoothScroll/SmoothScroll';
+
+import { Context } from '../../context/context';
 
 import List from '@mui/material/List';
 import Box from '@mui/material/Box';
@@ -11,18 +12,22 @@ import ListItemText from '@mui/material/ListItemText';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import './Message.css';
 
-// const scrollStyle = {
-// 	background: '#000',
-// }
-let res;
+let messages;
+const boxStyle = {
+	display: "flex",
+	justifyContent: "center",
+	borderRadius: 3,
+	marginTop: '10px',
+	marginBottom: '60px',
+}
 
-function Message(props) {
-	const data = props.onAcceptData;
+function Message() {
+	const { message } = useContext(Context);
 
-	if (data.length === 0) {
-		res = 'массив объектов - сообщений пуст';
+	if (message.length === 0) {
+		messages = 'массив объектов - сообщений пуст';
 	} else {
-		res = data.map(item => (
+		messages = message.map(item => (
 			<ListItem
 				key={item.id}>
 				<ListItemIcon><MailOutlineIcon /></ListItemIcon>
@@ -34,15 +39,10 @@ function Message(props) {
 
 	return (
 		<Box className='box' sx={{ bgcolor: 'primary.light', minHeight: '200px', minWidth: '300px', maxWidth: '100%', textAlign: 'center', padding: '5px', maxHeight: 380, overflow: 'auto' }}
-			display="flex"
-			justifyContent="center"
-			borderRadius={3}
-			marginTop='10px'
-			marginBottom='20px'	>
+			{...boxStyle}>
 			<Scroll />
 			<List>
-				{/* <MessageList onAcceptData={props.onAcceptData} /> */}
-				{res}
+				{messages}
 			</List>
 		</Box >
 	)

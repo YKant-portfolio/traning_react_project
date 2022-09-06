@@ -1,14 +1,8 @@
-import { Route } from "react-router-dom";
-
+import Message from "../component/Message/Message";
 
 
 export const Home = () => {
-
-
 	return (
-		<div>
-			as
-
-		</div>
+		<Message />
 	)
 }

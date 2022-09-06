@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-// import './Form.css'
+import { Context } from '../../context/context';
 
 
 const formStyle = {
@@ -16,16 +16,15 @@ const inputStyle = {
 	variant: "standard",
 	type: "text",
 	color: 'secondary',
-
 }
 
-const Form = (props) => {
+const Form = () => {
+	const { addItem } = useContext(Context);
+
 	const [state, setState] = useState({ author: '', message: '' });
 
 	const { author, message } = state;
-
 	const inputRef = useRef();
-
 	const handleClick = () => {
 		inputRef.current.focus();
 	}
@@ -37,8 +36,7 @@ const Form = (props) => {
 
 	const onSubmitItem = (e) => {
 		e.preventDefault();
-		props.onAdd(author, message);
-
+		addItem(author, message);
 		setState({ author: '', message: '' });
 		handleClick();
 	}
@@ -50,7 +48,8 @@ const Form = (props) => {
 	return (
 		<>
 			<Typography variant='h6'
-				component='span'>
+				component='span'
+				marginTop="40px">
 				Ваше сообщение
 			</Typography>
 			<form style={formStyle}
