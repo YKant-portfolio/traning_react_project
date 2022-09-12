@@ -2,8 +2,8 @@ class Service {
 
 	getUsers = [
 		{ id: "1", author: "Alexandro Kazulin", text: "HI Im Kazulin", date: "03.09.2022", raiting: "5", blocked: "false" },
-		{ id: "2", author: "Dio Denisovich", text: "HI Im Dio", date: "03.09.2020", raiting: "5", blocked: "false" },
-		{ id: "3", author: "Marsel Kyasar", text: "HI Im Marsel", date: "03.09.2020", raiting: "5", blocked: "false" },
+		{ id: "2", author: "Dio Denisovich", text: "HI Im Dio", date: "03.09.2022", raiting: "5", blocked: "false" },
+		{ id: "3", author: "Marsel Kyasar", text: "HI Im Marsel", date: "03.09.2022", raiting: "5", blocked: "false" },
 	]
 
 	getAuthorText = (() => {
@@ -11,7 +11,7 @@ class Service {
 		return message.map(this._transformMessages);
 	});
 
-	getProfile = (() => {
+	getProfiles = (() => {
 		const profile = this.getUsers;
 		return profile.map(this._transformProfile);
 	})
