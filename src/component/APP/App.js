@@ -47,13 +47,17 @@ function App() {
 
 	const clearData = () => {
 		setMessage([]);
+		setProfiles([]);
 	}
 
-	const addItem = (author, text) => {
+	const addItem = (author, text, raiting, date) => {
 		newItem = {
+			id: `${maxId++}`,
 			author,
 			text,
-			id: maxId++,
+			date,
+			raiting: `${raiting}`,
+			blocked: `${false}`,
 		}
 		setRobot(true);
 	}
@@ -71,10 +75,14 @@ function App() {
 				setLoading(false);
 				setMsg(true);
 				setMessage([...message, newItem]);
+				setProfiles([...profiles, newItem])
 			}, 3000);
 			return () => { clearTimeout(timeout) };
 		}
-	}, [robot, message]);
+	}, [robot, message, profiles]);
+
+	// console.log(profiles);
+
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
@@ -126,10 +134,10 @@ function App() {
 								<Route path="/chats" component={Chats} />
 								<Route path="/profiles" component={Profiles} />
 								<Route
-									path="/profile:id"
+									path="/profile/:id"
 									render={({ match }) => {
 										const { id } = match.params;
-										const profileId = profiles.find((el) => el.id === +id);
+										const profileId = profiles.find((el) => el.id === id);
 										return <Profile  {...profileId} />
 									}}
 								/>

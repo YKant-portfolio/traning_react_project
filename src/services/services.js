@@ -1,9 +1,9 @@
 class Service {
 
 	getUsers = [
-		{ id: "1", author: "Alexandro Kazulin", text: "HI Im Kazulin", date: "03.09.2022", raiting: "5", blocked: "false" },
-		{ id: "2", author: "Dio Denisovich", text: "HI Im Dio", date: "03.09.2022", raiting: "5", blocked: "false" },
-		{ id: "3", author: "Marsel Kyasar", text: "HI Im Marsel", date: "03.09.2022", raiting: "5", blocked: "false" },
+		{ id: "1", author: "Alexandro Kazulin", text: "HI Im Kazulin", date: "03.09.2022", raiting: "1", blocked: "false" },
+		{ id: "2", author: "Dio Denisovich", text: "HI Im Dio", date: "03.09.2022", raiting: "3", blocked: "false" },
+		{ id: "3", author: "Marsel Kyasar", text: "HI Im Marsel", date: "03.09.2022", raiting: 5, blocked: "false" },
 	]
 
 	getAuthorText = (() => {

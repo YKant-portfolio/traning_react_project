@@ -1,7 +1,5 @@
 import React, { useContext } from 'react'
-
 import Scroll from '../SmoothScroll/SmoothScroll';
-
 import { Context } from '../../context/context';
 
 import List from '@mui/material/List';
@@ -38,7 +36,7 @@ function Message() {
 
 
 	return (
-		<Box className='box' sx={{ bgcolor: 'primary.light', minHeight: '200px', minWidth: '300px', maxWidth: '100%', textAlign: 'center', padding: '5px', maxHeight: 380, overflow: 'auto' }}
+		<Box sx={{ bgcolor: 'primary.light', minHeight: '200px', minWidth: '300px', maxWidth: '100%', textAlign: 'center', padding: '5px', maxHeight: 380, overflow: 'auto' }}
 			{...boxStyle}>
 			<Scroll />
 			<List>

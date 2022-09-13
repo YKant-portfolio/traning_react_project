@@ -3,13 +3,16 @@ import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import Rating from '@mui/material/Rating';
 import { Context } from '../../context/context';
 
 
 const formStyle = {
 	width: '100%',
 	display: 'flex',
-	justifyContent: 'space-around',
+	flexDirection: 'column',
+	justifyContent: ' space-between',
+	alignItems: 'center',
 	marginBottom: "20px"
 }
 const inputStyle = {
@@ -21,9 +24,9 @@ const inputStyle = {
 const Form = () => {
 	const { addItem } = useContext(Context);
 
-	const [state, setState] = useState({ author: '', message: '' });
+	const [state, setState] = useState({ author: '', message: '', raiting: null, date: '' });
 
-	const { author, message } = state;
+	const { author, message, raiting, date } = state;
 	const inputRef = useRef();
 	const handleClick = () => {
 		inputRef.current.focus();
@@ -32,13 +35,23 @@ const Form = () => {
 	const onValueChange = (e) => {
 		const { name, value } = e.target;
 		setState(prevState => ({ ...prevState, [name]: value }));
+		setState(prevState => ({ ...prevState, date: resDate }));
 	}
+
+	let dateNow = new Date();
+	let resDate = `${dateNow.getDate() < 10 ? '0' + dateNow.getDate() : dateNow.getDate()}.${dateNow.getMonth() + 1 < 10 ? '0' + (dateNow.getMonth() + 1) : dateNow.getMonth() + 1}.${dateNow.getFullYear()}`;
+
 
 	const onSubmitItem = (e) => {
 		e.preventDefault();
-		addItem(author, message);
-		setState({ author: '', message: '' });
+
+		addItem(author, message, raiting, date);
+		setState({ author: '', message: '', raiting: null, date: '' });
 		handleClick();
+	}
+
+	const handleChange = (e, newValue) => {
+		setState(prevState => ({ ...prevState, raiting: newValue }));
 	}
 
 	useEffect(() => {
@@ -54,22 +67,29 @@ const Form = () => {
 			</Typography>
 			<form style={formStyle}
 				onSubmit={onSubmitItem}	>
-				<TextField id="standard-basic"
-					label="author"
-					{...inputStyle}
-					placeholder="Автор"
-					name='author'
-					value={author}
-					onChange={onValueChange}
-					inputRef={inputRef} />
-				<TextField id="standard-basic"
-					label="message"
-					{...inputStyle}
-					placeholder="Cообщение"
-					name='message'
-					value={message}
-					onChange={onValueChange} />
-				<IconButton color='inherit' type="submit"><SendIcon fontSize='large' /></IconButton>
+				<div>
+					<TextField id="standard-basic"
+						label="author"
+						{...inputStyle}
+						placeholder="Автор"
+						name='author'
+						value={author}
+						onChange={onValueChange}
+						inputRef={inputRef} />
+					<TextField id="standard-basic"
+						label="message"
+						{...inputStyle}
+						placeholder="Cообщение"
+						name='message'
+						value={message}
+						onChange={onValueChange} />
+				</div>
+				<div>
+					<Rating
+						value={raiting}
+						onChange={handleChange} />
+					<IconButton color='inherit' type="submit"><SendIcon fontSize='large' /></IconButton>
+				</div>
 			</form>
 		</>
 	)
