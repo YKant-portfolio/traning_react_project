@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ColorModeSwitch } from '../Color-mode-switch/Color-mode-switch';
 import Service from '../../services/services';
@@ -8,6 +8,7 @@ import { Context } from '../../context/context';
 
 import { Home } from '../../pages/Home';
 import { Profiles } from '../../pages/Profiles';
+import { Profile } from '../../pages/Profile';
 import { Chats } from '../../pages/Chats';
 
 import CssBaseline from '@mui/material/CssBaseline';
@@ -36,11 +37,11 @@ function App() {
 	const [robot, setRobot] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [msg, setMsg] = useState(false);
-	const [profile, setProfile] = useState([])
+	const [profiles, setProfiles] = useState([])
 
 	const service = new Service();
 	let getMessages = service.getAuthorText();
-	let getProfile = service.getProfile();
+	let getProfiles = service.getProfiles();
 	let maxId = message.length + 1;
 
 
@@ -59,7 +60,7 @@ function App() {
 
 	useEffect(() => {
 		setMessage([...getMessages]);
-		setProfile([...getProfile])
+		setProfiles([...getProfiles])
 	}, []);
 
 	useEffect(() => {
@@ -89,7 +90,7 @@ function App() {
 		loading,
 		msg,
 		addItem,
-		profile,
+		profiles,
 	}
 
 	return (
@@ -118,14 +119,20 @@ function App() {
 								borderRadius={4} >
 								<Link to="/" style={linkStyle}><HomeIcon /></Link>
 								<Link to="/chats/" style={linkStyle}><ChatIcon /></Link>
-								<Link to="/profile/" style={linkStyle}><AccountCircleIcon /></Link>
+								<Link to="/profiles/" style={linkStyle}><AccountCircleIcon /></Link>
 							</Box>
 
 							<Switch>
 								<Route path="/chats" component={Chats} />
-								<Route path="/profile" render={() => {
-									return <Profiles />
-								}} />
+								<Route path="/profiles" component={Profiles} />
+								<Route
+									path="/profile:id"
+									render={({ match }) => {
+										const { id } = match.params;
+										const profileId = profiles.find((el) => el.id === +id);
+										return <Profile  {...profileId} />
+									}}
+								/>
 								<Route exact path="/" component={Home} />
 							</Switch>
 						</Box>
