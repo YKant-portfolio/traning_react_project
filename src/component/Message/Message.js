@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef, useEffect, useState } from 'react'
 import Scroll from '../SmoothScroll/SmoothScroll';
 import { Context } from '../../context/context';
 
@@ -20,7 +20,15 @@ const boxStyle = {
 }
 
 function Message() {
-	const { message } = useContext(Context);
+	const { message, getScrollRef } = useContext(Context);
+	const [refScroll, setRefScroll] = useState('');
+	const scrollRef = useRef();
+
+	useEffect(() => {
+		setRefScroll(scrollRef);
+		getScrollRef(refScroll);
+	}, [getScrollRef, refScroll]);
+
 
 	if (message.length === 0) {
 		messages = 'массив объектов - сообщений пуст';
@@ -34,10 +42,10 @@ function Message() {
 			</ListItem>))
 	}
 
-
 	return (
 		<Box sx={{ bgcolor: 'primary.light', minHeight: '200px', minWidth: '300px', maxWidth: '100%', textAlign: 'center', padding: '5px', maxHeight: 380, overflow: 'auto' }}
-			{...boxStyle}>
+			{...boxStyle}
+			ref={scrollRef}>
 			<Scroll />
 			<List>
 				{messages}

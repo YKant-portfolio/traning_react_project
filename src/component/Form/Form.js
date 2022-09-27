@@ -13,12 +13,21 @@ const formStyle = {
 	flexDirection: 'column',
 	justifyContent: ' space-between',
 	alignItems: 'center',
-	marginBottom: "20px"
+	marginBottom: "20px",
+	padding: "0px 45px 0px 45px",
 }
 const inputStyle = {
 	variant: "standard",
 	type: "text",
 	color: 'secondary',
+}
+
+const divStyle = {
+	width: '100%',
+	display: 'flex',
+	justifyContent: ' space-between',
+	alignItems: 'center',
+	marginTop: "20px",
 }
 
 const Form = () => {
@@ -40,7 +49,6 @@ const Form = () => {
 
 	let dateNow = new Date();
 	let resDate = `${dateNow.getDate() < 10 ? '0' + dateNow.getDate() : dateNow.getDate()}.${dateNow.getMonth() + 1 < 10 ? '0' + (dateNow.getMonth() + 1) : dateNow.getMonth() + 1}.${dateNow.getFullYear()}`;
-
 
 	const onSubmitItem = (e) => {
 		e.preventDefault();
@@ -67,7 +75,7 @@ const Form = () => {
 			</Typography>
 			<form style={formStyle}
 				onSubmit={onSubmitItem}	>
-				<div>
+				<div style={divStyle}>
 					<TextField id="standard-basic"
 						label="author"
 						{...inputStyle}
@@ -84,10 +92,14 @@ const Form = () => {
 						value={message}
 						onChange={onValueChange} />
 				</div>
-				<div>
-					<Rating
-						value={raiting}
-						onChange={handleChange} />
+				<div style={divStyle}>
+					<div>
+						<Typography sx={{ color: "rgba(0, 0, 0, 0.6)", fontSize: "13px" }}>raiting</Typography>
+						<Rating
+							value={raiting}
+							onChange={handleChange} />
+					</div>
+
 					<IconButton color='inherit' type="submit"><SendIcon fontSize='large' /></IconButton>
 				</div>
 			</form>

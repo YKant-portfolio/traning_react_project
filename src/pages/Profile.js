@@ -1,4 +1,4 @@
-import { useHistory, useRouteMatch } from "react-router-dom"
+import { useNavigate, useParams, useLocation } from "react-router-dom"
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -11,40 +11,48 @@ const boxStyle = {
 	borderRadius: 3,
 }
 
-export const Profile = ({ id, author, raiting, date, blocked }) => {
+export const Profile = (props) => {
+	const { author, raiting, date, blocked } = props;
+	console.log(props);
 
-	const history = useHistory();
-	const match = useRouteMatch();
 
-	const isProfile = match.path !== '/profiles';
+
+	const navigate = useNavigate();
+	const { profileId } = useParams();
+	const { pathname } = useLocation();
+	console.log(useLocation());
+
+
+	const isProfile = pathname !== '/profiles/';
+	// console.log(isProfile);
+
 
 	const handleClick = () => {
-		history.push(`/profile/${id}`);
+		navigate(`/profiles/:${profileId}`, { replace: true });
 	}
 
-	const handleClickBack = () => {
-		history.goBack();
-	}
+	const goBack = () => navigate(-1);
 
 	const res = <>
 		<h4>дата : {date}</h4>
 		<h4>рейтинг : {raiting}</h4>
 		<Rating name="disabled" value={+raiting} readOnly />
 		<h4>блокирован : {blocked ? 'нет' : 'да'}</h4>
-		<button onClick={handleClickBack}>back</button>
+		<button onClick={goBack}>back</button>
 	</>
-
 	return (
 		<div>
 			<Typography variant='h6'
 				textAlign='center'
 				marginTop='5px'
-				onClick={!isProfile ? handleClick : Function.prototype} >{author}</Typography>
+				onClick={!isProfile ? handleClick : null} >
+				{author}
+			</Typography>
 
-			<Box className='box' sx={{ bgcolor: 'primary.light', textAlign: 'center', padding: '15px', overflow: 'auto', marginBottom: '20px' }}
+			<Box sx={{ bgcolor: 'primary.light', textAlign: 'center', paddingLeft: '10px', paddingRight: '10px', paddingBottom: '5px', overflow: 'auto', marginBottom: '20px' }}
 				{...boxStyle}>
 				{
-					isProfile && res
+					isProfile && (res)
 				}
 			</Box>
 		</div >
