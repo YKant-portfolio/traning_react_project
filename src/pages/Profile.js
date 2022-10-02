@@ -15,8 +15,6 @@ export const Profile = (props) => {
 	const { author, raiting, date, blocked } = props;
 	console.log(props);
 
-
-
 	const navigate = useNavigate();
 	const { profileId } = useParams();
 	const { pathname } = useLocation();
