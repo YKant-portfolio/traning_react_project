@@ -1,13 +1,13 @@
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 import Scrollbar from 'smooth-scrollbar';
 import OverscrollPlugin from 'smooth-scrollbar/plugins/overscroll'
+import { Context } from '../../context/context';
 
 const overscrollOptions = {
 	enable: true,
 	effect: 'bounce',
 	damping: 0.15,
 	maxOverscroll: 150,
-
 }
 
 const options = {
@@ -16,11 +16,14 @@ const options = {
 	continuousScrolling: true,
 	plugins: {
 		overscroll: { ...overscrollOptions }
-	}
+	},
+
 }
 
 const Scroll = () => {
-	const scroll = document.querySelector('.box');
+	const { scrollRef } = useContext(Context);
+	const resRef = scrollRef.current;
+	const scroll = resRef;
 
 	useEffect(() => {
 		if (scroll) {
