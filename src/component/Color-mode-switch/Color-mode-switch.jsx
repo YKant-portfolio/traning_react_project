@@ -3,7 +3,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { IconButton, useTheme } from '@mui/material';
 
-import { useToggleModeServices } from '../../hoocks/use-toggle-mode-services';
+import { useToggleModeServices } from '../../hooks/use-toggle-mode-services';
 
 export const ColorModeSwitch = () => {
 	const toggleColorMode = useToggleModeServices();

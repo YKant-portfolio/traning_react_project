@@ -1,7 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { ColorModeSwitch } from '../Color-mode-switch/Color-mode-switch';
-import Service from '../../services/services';
+
+import { getAuthorText } from '../../services/services';
+import { getUserProfiles } from '../../services/services';
 
 import { ThemeProvider } from '../../context/contextTheme';
 import { Context } from '../../context/context';
@@ -37,9 +39,8 @@ function App() {
 	const [profiles, setProfiles] = useState([]);
 	const [scrollRef, setScrollRef] = useState('');
 
-	const service = new Service();
-	let getMessages = service.getAuthorText();
-	let getProfiles = service.getProfiles();
+	let getMessages = getAuthorText();
+	let getProfiles = getUserProfiles();
 	let maxId = message.length + 1;
 
 
@@ -96,7 +97,6 @@ function App() {
 
 	const data = {
 		message,
-		robot,
 		loading,
 		msg,
 		addItem,

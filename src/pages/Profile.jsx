@@ -1,8 +1,10 @@
+import { useContext } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom"
+import { Context } from "../context/context";
+import ProfileCard from "../component/ProfileCard/ProfileCard";
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Rating from '@mui/material/Rating';
 
 const boxStyle = {
 	display: "flex",
@@ -12,45 +14,43 @@ const boxStyle = {
 }
 
 export const Profile = (props) => {
-	const { author, raiting, date, blocked } = props;
-	console.log(props);
-
 	const navigate = useNavigate();
 	const { profileId } = useParams();
 	const { pathname } = useLocation();
-	console.log(useLocation());
+	const { profiles } = useContext(Context);
 
+	const { author, raiting, date, blocked } = profileId ?
+		profiles.find(({ id }) => id === profileId) : props;
 
-	const isProfile = pathname !== '/profiles/';
-	// console.log(isProfile);
-
+	const isProfile = `${pathname}` !== '/profiles/';
 
 	const handleClick = () => {
-		navigate(`/profiles/:${profileId}`, { replace: true });
+		navigate(`/profiles/:${profileId}`);
 	}
 
-	const goBack = () => navigate(-1);
+	const goBack = () => navigate(`/profiles/`);
 
-	const res = <>
-		<h4>дата : {date}</h4>
-		<h4>рейтинг : {raiting}</h4>
-		<Rating name="disabled" value={+raiting} readOnly />
-		<h4>блокирован : {blocked ? 'нет' : 'да'}</h4>
-		<button onClick={goBack}>back</button>
-	</>
 	return (
 		<div>
 			<Typography variant='h6'
 				textAlign='center'
 				marginTop='5px'
-				onClick={!isProfile ? handleClick : null} >
+				onClick={!isProfile ? handleClick : Function.prototype} >
 				{author}
 			</Typography>
 
 			<Box sx={{ bgcolor: 'primary.light', textAlign: 'center', paddingLeft: '10px', paddingRight: '10px', paddingBottom: '5px', overflow: 'auto', marginBottom: '20px' }}
 				{...boxStyle}>
-				{
-					isProfile && (res)
+				{isProfile &&
+					<>
+						<ProfileCard
+							author={author}
+							raiting={raiting}
+							date={date}
+							blocked={blocked}
+						/>
+						<button onClick={goBack}>back</button>
+					</>
 				}
 			</Box>
 		</div >

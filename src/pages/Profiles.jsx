@@ -7,7 +7,7 @@ import { Context } from "../context/context";
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 
-import Scroll from "../component/SmoothScroll/SmoothScroll";
+import Scroll from "../component/Smooth-scroll/Smooth-scroll";
 
 const boxStyle = {
 	display: "flex",
@@ -35,11 +35,11 @@ export const Profiles = () => {
 			<Scroll />
 			<List>
 				{profiles.map(item =>
-					<Link key={item.id} to={`/profiles/${item.id}`} >
+					<Link style={{ textDecoration: 'none' }}
+						key={item.id}
+						to={`/profiles/${item.id}`} >
 						<Profile {...item} />
 					</Link>)}
-				{/* < Profile key={item.id}{...item} />	)} */}
-
 			</List>
 		</Box >
 	)
