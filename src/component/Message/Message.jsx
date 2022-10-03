@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect, useState } from 'react'
-import Scroll from '../SmoothScroll/SmoothScroll';
+import Scroll from '../Smooth-scroll/Smooth-scroll';
 import { Context } from '../../context/context';
 
 import List from '@mui/material/List';
